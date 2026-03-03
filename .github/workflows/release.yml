@@ -208,34 +208,9 @@ jobs:
       - name: Prepare artifact folder
         run: mkdir final_artifacts
 
-      #
-      # Instead of extracting each artifact, download it as a .zip
-      # and rename it so we can publish the ZIP files directly.
-      #
       - name: Download Linux x86_64 artifact (ZIP)
         run: |
-          gh run download --name tdlib-linux-x86_64-glibc --archive zip
-          mv artifacts-*.zip final_artifacts/tdlib-linux-x86_64-glibc.zip
-
-      - name: Download Linux arm64 artifact (ZIP)
-        run: |
-          gh run download --name tdlib-linux-arm64-glibc --archive zip
-          mv artifacts-*.zip final_artifacts/tdlib-linux-arm64-glibc.zip
-
-      - name: Download macOS x86_64 artifact (ZIP)
-        run: |
-          gh run download --name tdlib-macos-x86_64 --archive zip
-          mv artifacts-*.zip final_artifacts/tdlib-macos-x86_64.zip
-
-      - name: Download macOS arm64 artifact (ZIP)
-        run: |
-          gh run download --name tdlib-macos-arm64 --archive zip
-          mv artifacts-*.zip final_artifacts/tdlib-macos-arm64.zip
-
-      - name: Download Windows x86_64 artifact (ZIP)
-        run: |
-          gh run download --name tdlib-windows-x86_64 --archive zip
-          mv artifacts-*.zip final_artifacts/tdlib-windows-x86_64.zip
+          gh run download --name tdlib-linux-x86_64-glibc,tdlib-linux-arm64-glibc,tdlib-macos-x86_64,tdlib-macos-arm64,tdlib-windows-x86_64
 
       - name: Upload Release Assets
         uses: softprops/action-gh-release@v2

@@ -14,21 +14,22 @@ stdenv.mkDerivation {
 
   buildInputs = [ openssl zlib apple-sdk_11 ];
   nativeBuildInputs = with pkgs; [ cmake gperf ];
-
+    # cmake -DCMAKE_BUILD_TYPE=Release -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl/ -DCMAKE_INSTALL_PREFIX:PATH=../tdlib ..
   cmakeFlags = [
     "-DCMAKE_BUILD_TYPE=Release"
     "-DOPENSSL_USE_STATIC_LIBS=TRUE"
     "-DZLIB_USE_STATIC_LIBS=TRUE"
+    "-DCMAKE_INSTALL_PREFIX:PATH=../tdlib .."
   ];
 
   buildPhase = ''
-    cmake --build . --target tdjson -j $NIX_BUILD_CORES
+    cmake --build . --target install -j $NIX_BUILD_CORES
   '';
 
   installPhase = ''
     runHook preInstall
-    mkdir -p "$out"/lib
-    cp -L ./libtdjson.dylib "$out"/lib/
+    mkdir -p "$out"/
+    cp -R . "$out"/
     runHook postInstall
   '';
 

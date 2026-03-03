@@ -12,10 +12,11 @@ set -ex
 nix-build tdlib-macos.nix -v --argstr rev "$_tdlib"
 
 mkdir to-upload
-cp -L ./result/lib/libtdjson.dylib to-upload/libtdjson.dylib
+cp -R ./result/lib to-upload/lib
+cp -R ./result/include to-upload/include
 cd to-upload
 
-install_name_tool -id @rpath/libtdjson.dylib libtdjson.dylib
+install_name_tool -id @rpath/lib/libtdjson.dylib libtdjson.dylib
 install_name_tool -change \
   "$(otool -L libtdjson.dylib | grep -o '/nix/store.*libc++.*.dylib')" \
   '/usr/lib/libc++.1.dylib' \
